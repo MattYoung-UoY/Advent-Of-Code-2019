@@ -1,0 +1,19 @@
+package main;
+
+public class Main {
+
+	public static void main(String[] args) {
+		System.out.println(moduleFuel(1969));
+	}
+	
+	public static float moduleFuel(int mass) {
+		float res = mass;
+		
+		res /= 3;
+		res -= (res %= 1);
+		res -= 2;
+		
+		return res;
+	}
+	
+}

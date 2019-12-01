@@ -1,0 +1,34 @@
+package main;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) {
+		inputs();
+	}
+	
+	public static int[] inputs() {
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File("input.txt"))));
+		String line;
+		try {
+			while((line = br.readLine()) != null) System.out.println(line);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new int[1];
+	}
+	
+	public static int moduleFuel(int mass) {
+		float res = mass;
+		
+		res /= 3;
+		res -= (res %= 1);
+		res -= 2;
+		
+		return (int) res;
+	}
+	
+}

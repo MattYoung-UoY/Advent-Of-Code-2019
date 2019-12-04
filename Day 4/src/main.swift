@@ -7,13 +7,25 @@ func double(num: Int) -> Bool{
 
     let numStr = String(num)
 
-    for i in 0...4{
-        if(numStr[numStr.index(numStr.startIndex, offsetBy: i)] == numStr[numStr.index(numStr.startIndex, offsetBy: (i+1))]){
-            return true
-        }
-    }
+    if(numStr.count == 1){
+        return false;
+    }else if(numStr.count == 2){
+        return (numStr[numStr.index(numStr.startIndex, offsetBy: 0)] == numStr[numStr.index(numStr.startIndex, offsetBy: 1)]);
+    }else{
 
-    return false
+        for i in 2...numStr.count{
+            if(numStr[numStr.index(numStr.startIndex, offsetBy: i-2)] == numStr[numStr.index(numStr.startIndex, offsetBy: i-1)]){
+                if(!(numStr[numStr.index(numStr.startIndex, offsetBy: i-1)] == numStr[numStr.index(numStr.startIndex, offsetBy: i)])){
+                    return false;
+                }else{ 
+                    return true && double(num: Int(String(numStr.suffix(numStr.count-2))) ?? -1);
+                }
+            }
+        }
+
+        return false
+
+    }
 
 }
 

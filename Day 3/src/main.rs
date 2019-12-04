@@ -76,9 +76,31 @@ fn main(){
 
 	}
 
+	let mut intersections: Vec<(i32, i32)> = Vec::new();
+
+	for line1 in &wire1{
+		for line2 in &wire2{
+			let intersectInfo: (bool, (i32, i32)) = intersect(&line1, &line2);
+			if(intersectInfo.0){
+				intersections.push(intersectInfo.1);
+			}
+		}
+	}
+
+	let mut minDist:i32 = 1000000000;
+
+	for intersection in intersections{
+		let distVal = (intersection.0).abs() + (intersection.1).abs();
+		if distVal < minDist{
+			minDist = distVal;
+		}
+	}
+
+	println!("{}", minDist);
+
 }
 
-fn intersect(line1:((i32, i32), (i32, i32)), line2:((i32, i32), (i32, i32))) -> (bool, (i32, i32)){
+fn intersect(line1:&((i32, i32), (i32, i32)), line2:&((i32, i32), (i32, i32))) -> (bool, (i32, i32)){
 
 	if((line1.0).0 == (line1.1).0){
 		//line1 x vals same. Vertical line

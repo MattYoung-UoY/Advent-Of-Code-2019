@@ -1,4 +1,5 @@
 use std::fs;
+use std::cmp;
 
 fn main(){
 
@@ -75,11 +76,66 @@ fn main(){
 
 	}
 
-	println!("{}", overlap(((-10, 0), (10, 0)), ((-10, 5), (-10, -5))));
 }
 
-fn overlap(line1:((i32, i32), (i32, i32)), line2:((i32, i32), (i32, i32))) -> bool{
+fn intersect(line1:((i32, i32), (i32, i32)), line2:((i32, i32), (i32, i32))) -> (bool, (i32, i32)){
 
-	
+	if((line1.0).0 == (line1.1).0){
+		//line1 x vals same. Vertical line
+		if((line2.0).0 == (line2.1).0){
+			//Line2 also vertical
+			return (false, (0, 0));
+		}else{
+			//line1 vert. line2 horiz.
+			let x = (line1.0).0;
+			let y = (line2.0).1;
+
+			let minx = cmp::min((line2.0).0, (line2.1).0);
+			let maxx = cmp::max((line2.0).0, (line2.1).0);
+
+			let miny = cmp::min((line1.0).1, (line1.1).1);
+			let maxy = cmp::max((line1.0).1, (line1.1).1);
+
+			if(x >= minx && x <= maxx){
+				//x is on horizontal
+				if(y >= miny && y <= maxy){
+					//y is on vertical
+					//Therefore intersection
+					return (true, (x, y));
+				}
+			}
+		}
+	}else if((line1.0).1 == (line1.1).1){
+		//line1 y vals same. Horizontal line
+		if((line2.0).1 == (line2.1).1){
+			//Line2 also horizontal
+			return (false, (0, 0));
+		}else{
+			//line 1 horiz. line 2 vert.
+			let x = (line2.0).0;
+			let y = (line1.0).1;
+
+			let minx = cmp::min((line1.0).0, (line1.1).0);
+			let maxx = cmp::max((line1.0).0, (line1.1).0);
+
+			let miny = cmp::min((line2.0).1, (line2.1).1);
+			let maxy = cmp::max((line2.0).1, (line2.1).1);
+
+			if(x >= minx && x <= maxx){
+				//x is on horizontal
+				if(y >= miny && y <= maxy){
+					//y is on vertical
+					//Therefore intersection
+					return (true, (x, y));
+				}
+			}
+		}
+
+	}else{
+		//Ruh Roh Raggy!!!
+		panic!();
+	}
+
+	return (false, (0, 0));
 
 }

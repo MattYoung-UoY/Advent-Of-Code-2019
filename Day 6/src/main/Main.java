@@ -10,12 +10,48 @@ import java.util.List;
 
 public class Main {
 
-	Tree<String> tree = new Tree<String>(null, "COM");
+	private static Node<String> root;
+	private static List<String[]> inputs;
 	
 	public static void main(String[] args) {
-		List<String[]> inputs = getInputs();
+		inputs = getInputs();
 		
+		root = createTree("COM", null);
 		
+		//Part 1
+		System.out.println(root.sumDepths());
+		
+		//Part 2
+		List<String> myRoute = root.getPathTo("YOU");
+		List<String> santaRoute = root.getPathTo("SAN");
+		
+		String commonNode = "";
+		for(String node: myRoute) {
+			if(santaRoute.contains(node)) {
+				commonNode = node;
+				break;
+			}
+		}
+
+		int depthCommonNode = root.getPathTo(commonNode).size();
+		int depthSanta = santaRoute.size();
+		int depthMe = myRoute.size();
+		
+		int res = (depthMe - depthCommonNode) + (depthSanta - depthCommonNode) - 2;
+		
+		System.out.println(res);
+	}
+	
+	private static Node<String> createTree(String node, Node<String> parent) {
+		Node<String> res = new Node<String>(node, parent);
+		
+		for(String[] pair: inputs) {
+			if(pair[0].equals(node)) {
+				res.addSubTree(createTree(pair[1], res));
+			}
+		}
+		
+		return res;
 	}
 	
 	private static List<String[]> getInputs(){
